@@ -1,0 +1,20 @@
+# Verberg Streamlit secrets
+.streamlit/secrets.toml
+
+# Python-bestanden om te negeren
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Jupyter en notebooks
+.ipynb_checkpoints/
+
+# Virtuele omgevingen
+.env/
+.venv/
+env/
+venv/
+
+# MacOS en IDE-bestanden
+.DS_Store
+.vscode/
