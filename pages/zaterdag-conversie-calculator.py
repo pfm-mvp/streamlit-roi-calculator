@@ -43,7 +43,10 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
                 st.write("📦 Ontvangen ruwe response:", full_response)
 
                 if isinstance(full_response, list) and full_response and "data" in full_response[0]:
-                    raw_data = full_response["data"]
+                    raw_data = full_response[0]["data"]["last_year"]
+                    sample_shop = list(raw_data.values())[0]
+                    sample_day = list(sample_shop.get("dates", {}).values())[0]
+                    st.write("🧪 Sample dagdata:", sample_day)
                     return normalize_vemcount_response(raw_data)
                 else:
                     st.warning("⚠️ Response heeft niet het verwachte formaat.")
