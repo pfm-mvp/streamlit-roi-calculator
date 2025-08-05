@@ -50,11 +50,14 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
 # -----------------------------
 # SIMULATIE FUNCTIE
 # -----------------------------
-def st.write("🧪 DataFrame kolommen:", df_kpi.columns.tolist())
-    st.dataframe(df_kpi.head())
-    simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
+def simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
+    # Debug: toon dataframe structuur
+    st.write("🧪 DataFrame kolommen:", df.columns.tolist())
+    st.dataframe(df.head())
+
     if "date" not in df.columns:
-    raise ValueError("❌ De kolom 'date' ontbreekt in de DataFrame. Check je normalisatie.")
+        raise ValueError("❌ De kolom 'date' ontbreekt in de DataFrame. Check je normalisatie.")
+
     df["date"] = pd.to_datetime(df["date"])
     df = df[df["date"].dt.day_name() == "Saturday"]
 
