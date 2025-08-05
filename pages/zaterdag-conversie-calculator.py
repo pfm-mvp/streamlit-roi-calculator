@@ -1,5 +1,8 @@
 # 📈 Zaterdag Conversie Calculator – Streamlit
-
+import importlib
+import data_transformer
+importlib.reload(data_transformer)
+from data_transformer import normalize_vemcount_response
 import streamlit as st
 import sys
 import os
