@@ -4,6 +4,8 @@ import streamlit as st
 import pandas as pd
 import requests
 from datetime import date
+from utils.data_transformer import normalize_vemcount_response
+
 
 # -----------------------------
 # CONFIGURATIE
