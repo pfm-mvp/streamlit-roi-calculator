@@ -123,18 +123,27 @@ if st.button("📊 Simuleer omzetgroei"):
         df_kpi = get_kpi_data_for_stores(shop_ids, period="last_year", step="day")
 
     if not df_kpi.empty:
-        df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
+    df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
 
-        st.success("✅ Simulatie voltooid")
-        st.subheader("📊 Verwachte omzetgroei bij conversieboost op zaterdagen")
+    st.success("✅ Simulatie voltooid")
+    st.subheader("📊 Verwachte omzetgroei bij conversieboost op zaterdagen")
 
-        st.dataframe(df_results.style.format({
-            "original_turnover": "€{:,.0f}",
-            "extra_turnover": "€{:,.0f}",
-            "new_total_turnover": "€{:,.0f}",
-            "growth_pct": "{:.2f}%"
-        }))
+    st.dataframe(df_results.style.format({
+        "original_turnover": "€{:,.0f}",
+        "extra_turnover": "€{:,.0f}",
+        "new_total_turnover": "€{:,.0f}",
+        "growth_pct": "{:.2f}%"
+    }))
 
-        st.bar_chart(df_results.set_index("shop_id")["extra_turnover"])
+    st.bar_chart(df_results.set_index("shop_id")["extra_turnover"])
+
+    # Download CSV-knop
+    csv = df_results.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        label="📥 Download resultaten als CSV",
+        data=csv,
+        file_name="simulatie_conversieboost_zaterdag.csv",
+        mime="text/csv"
+    )
     else:
         st.warning("⚠️ Geen data beschikbaar voor opgegeven periode/winkels.")
