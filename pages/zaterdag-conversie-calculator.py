@@ -1,6 +1,9 @@
 # 📈 Zaterdag Conversie Calculator – Streamlit
 
 import streamlit as st
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../'))
 import pandas as pd
 import requests
 from datetime import date
