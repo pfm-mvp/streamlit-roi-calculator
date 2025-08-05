@@ -75,7 +75,11 @@ def simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
     df = df[df["date"].dt.day_name() == "Saturday"]
 
     df = df.copy()
-    df["atv"] = df["sales_per_transaction"]
+    if "sales_per_transaction" not in df.columns:
+    st.error("❌ 'sales_per_transaction' ontbreekt in de DataFrame.")
+    st.write("📋 Beschikbare kolommen:", df.columns.tolist())
+    st.stop()
+    df["atv"] = df["sales_per_transaction"].replace(0, pd.NA)
     df["extra_conversion"] = conversion_boost_pct / 100.0
     df["extra_customers"] = df["count_in"] * df["extra_conversion"]
     df["extra_turnover"] = df["extra_customers"] * df["atv"]
