@@ -9,7 +9,6 @@ import os
 import pandas as pd
 import requests
 from datetime import date
-from data_transformer import normalize_vemcount_response
 
 # Zorg dat parent directory toegankelijk is
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../'))
@@ -19,6 +18,11 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../'))
 # -----------------------------
 API_URL = st.secrets["API_URL"].rstrip("/")  # verwijder eventuele trailing slash
 DEFAULT_SHOP_IDS = [26304, 26560, 26509, 26480, 26640, 26359, 26630, 27038, 26647, 26646]
+
+# -----------------------------
+# DEBUG TOGGLE
+# -----------------------------
+debug = st.sidebar.checkbox("🔍 Toon debug info", value=False)
 
 # -----------------------------
 # API CLIENT
@@ -43,14 +47,14 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
             try:
                 full_response = response.json()
 
-                # ✅ Pak correcte laag
                 if "data" in full_response and "last_year" in full_response["data"]:
                     raw_data = full_response["data"]["last_year"]
 
-                    # (optioneel) debug: toon 1 dag
-                    sample_shop = list(raw_data.values())[0]
-                    sample_day = list(sample_shop.get("dates", {}).values())[0]
-                    st.write("🧪 Sample dagdata:", sample_day)
+                    # ✅ Alleen tonen bij debug
+                    if debug:
+                        sample_shop = list(raw_data.values())[0]
+                        sample_day = list(sample_shop.get("dates", {}).values())[0]
+                        st.write("🧪 Sample dagdata:", sample_day)
 
                     return normalize_vemcount_response(raw_data)
                 else:
@@ -82,6 +86,7 @@ def simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
         st.error("❌ 'sales_per_transaction' ontbreekt in de DataFrame.")
         st.write("📋 Beschikbare kolommen:", df.columns.tolist())
         st.stop()
+
     df["atv"] = df["sales_per_transaction"].replace(0, pd.NA)
     df["extra_conversion"] = conversion_boost_pct / 100.0
     df["extra_customers"] = df["count_in"] * df["extra_conversion"]
