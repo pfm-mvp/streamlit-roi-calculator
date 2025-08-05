@@ -23,7 +23,7 @@ def normalize_vemcount_response(response_json: dict) -> pd.DataFrame:
             data = day_info.get("data", {})
             row = {
                 "shop_id": int(shop_id),
-                "date": data.get("dt"),
+                "date": data.get("dt") or data.get("label") or data.get("x") or None,
                 "turnover": float(data.get("turnover", 0)),
                 "count_in": float(data.get("count_in", 0)),
                 "conversion_rate": float(data.get("conversion_rate", 0))
