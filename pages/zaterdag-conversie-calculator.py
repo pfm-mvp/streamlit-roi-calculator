@@ -29,17 +29,19 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
         ("step", step)
     ]
 
-    # Debug info
     st.write("✅ Query parameters voor Vemcount-agent opgebouwd")
     st.write("📤 Params:", params)
 
     try:
         response = requests.post(API_URL, params=params)
         st.write("🔁 Statuscode:", response.status_code)
-        st.write("📨 Response:", response.text)
 
         if response.status_code == 200:
-            return pd.DataFrame(response.json())
+            raw_data = response.json()
+            st.write("📦 Response ontvangen – sample:")
+            st.json(list(raw_data.items())[0])  # toon 1 locatie
+            df = normalize_vemcount_response(raw_data)
+            return df
         else:
             st.error(f"❌ Fout bij ophalen data: {response.status_code} - {response.text}")
             return pd.DataFrame()
