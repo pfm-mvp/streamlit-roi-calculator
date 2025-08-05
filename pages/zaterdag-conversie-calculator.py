@@ -7,8 +7,10 @@ import pandas as pd
 import requests
 from datetime import date
 
-# ➕ Zorg dat data_transformer correct wordt gevonden
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+# 👇 Zet dit vóór de import!
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../'))
+
+# ✅ Nu pas importeren
 from data_transformer import normalize_vemcount_response
 
 # -----------------------------
