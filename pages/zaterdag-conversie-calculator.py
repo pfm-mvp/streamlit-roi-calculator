@@ -35,7 +35,7 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
         response = requests.post(API_URL, params=params)
 
         if response.status_code == 200:
-            raw_data = response.json()
+            raw_data = response.json()[0]["data"]["last_year"]  # ✅ juiste laag
             return normalize_vemcount_response(raw_data)
         else:
             st.error(f"❌ Fout bij ophalen data: {response.status_code} - {response.text}")
