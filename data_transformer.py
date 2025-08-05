@@ -13,6 +13,7 @@ def normalize_vemcount_response(response_json: dict) -> pd.DataFrame:
                 "turnover": float(data.get("turnover", 0)),
                 "count_in": float(data.get("count_in", 0)),
                 "conversion_rate": float(data.get("conversion_rate", 0)),
+                "sales_per_transaction": float(data.get("sales_per_transaction", 0)),
             }
             rows.append(row)
 
