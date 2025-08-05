@@ -31,7 +31,8 @@ def get_kpi_data_for_stores(shop_ids, start_date, end_date):
     st.json(payload)
 
     try:
-        response = requests.post(API_URL, json=payload)
+        headers = {"Content-Type": "application/json"}
+        response = requests.post(API_URL, json=payload, headers=headers)
         st.write("🔁 Statuscode:", response.status_code)
         st.write("📨 Response:", response.text)
 
