@@ -26,6 +26,7 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
         ("data_output", "count_in"),
         ("data_output", "conversion_rate"),
         ("data_output", "turnover"),
+        ("data_output", "sales_per_transaction"),
         ("source", "shops"),
         ("period", period),
         ("step", step)
