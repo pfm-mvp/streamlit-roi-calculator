@@ -3,16 +3,18 @@
 import streamlit as st
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../'))
 import pandas as pd
 import requests
 from datetime import date
 from data_transformer import normalize_vemcount_response
 
+# Zorg dat parent directory toegankelijk is
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../'))
+
 # -----------------------------
 # CONFIGURATIE
 # -----------------------------
-API_URL = st.secrets["API_URL"].rstrip("/")  # strip eventuele trailing slash
+API_URL = st.secrets["API_URL"].rstrip("/")  # verwijder eventuele trailing slash
 DEFAULT_SHOP_IDS = [26304, 26560, 26509, 26480, 26640, 26359, 26630, 27038, 26647, 26646]
 
 # -----------------------------
@@ -29,34 +31,23 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
         ("step", step)
     ]
 
-    st.write("✅ Query parameters voor Vemcount-agent opgebouwd")
-    st.write("📤 Params:", params)
-
     try:
         response = requests.post(API_URL, params=params)
-        st.write("🔁 Statuscode:", response.status_code)
 
         if response.status_code == 200:
             raw_data = response.json()
-            st.write("📦 Response ontvangen – sample:")
-            st.json(list(raw_data.items())[0])  # toon 1 locatie
-            df = normalize_vemcount_response(raw_data)
-            return df
+            return normalize_vemcount_response(raw_data)
         else:
             st.error(f"❌ Fout bij ophalen data: {response.status_code} - {response.text}")
             return pd.DataFrame()
     except Exception as e:
-        st.error(f"🚨 Exception tijdens API-call: {e}")
+        st.error(f"🚨 API-call mislukt: {e}")
         return pd.DataFrame()
 
 # -----------------------------
 # SIMULATIE FUNCTIE
 # -----------------------------
 def simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
-    # Debug: toon dataframe structuur
-    st.write("🧪 DataFrame kolommen:", df.columns.tolist())
-    st.dataframe(df.head())
-
     if "date" not in df.columns:
         raise ValueError("❌ De kolom 'date' ontbreekt in de DataFrame. Check je normalisatie.")
 
@@ -84,7 +75,6 @@ def simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
 # -----------------------------
 st.set_page_config(page_title="ROI Calculator - Conversie op Zaterdagen", layout="wide")
 st.title("📈 ROI Calculator - Conversieboost op Zaterdagen")
-
 st.markdown("Simuleer de omzetimpact van een hogere conversie op zaterdagen in 2024 voor je retailportfolio.")
 
 # Sidebar inputs
@@ -99,7 +89,8 @@ if st.button("📊 Simuleer omzetgroei"):
     if not df_kpi.empty:
         df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
 
-        st.success("Simulatie voltooid ✅")
+        st.success("✅ Simulatie voltooid")
+        st.subheader("📊 Verwachte omzetgroei bij conversieboost op zaterdagen")
 
         st.dataframe(df_results.style.format({
             "original_turnover": "€{:,.0f}",
@@ -110,4 +101,4 @@ if st.button("📊 Simuleer omzetgroei"):
 
         st.bar_chart(df_results.set_index("shop_id")["extra_turnover"])
     else:
-        st.warning("Geen data beschikbaar voor opgegeven periode/winkels.")
+        st.warning("⚠️ Geen data beschikbaar voor opgegeven periode/winkels.")
