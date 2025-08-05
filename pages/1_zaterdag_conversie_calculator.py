@@ -8,7 +8,7 @@ from datetime import date
 # -----------------------------
 # CONFIGURATIE
 # -----------------------------
-API_URL = "https://vemcount-agent.onrender.com/get-report"
+API_URL = st.secrets["API_URL"]
 DEFAULT_SHOP_IDS = [26304, 26560, 26509, 26480, 26640, 26359, 26630, 27038, 26647, 26646]
 
 # -----------------------------
