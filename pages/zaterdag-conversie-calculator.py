@@ -14,26 +14,23 @@ DEFAULT_SHOP_IDS = [26304, 26560, 26509, 26480, 26640, 26359, 26630, 27038, 2664
 # -----------------------------
 # API CLIENT
 # -----------------------------
-def get_kpi_data_for_stores(shop_ids, start_date, end_date):
-    # Zet juiste query parameters op basis van Vemcount API-specs
-    params = [("data[]", shop_id) for shop_id in shop_ids]
+def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
+    params = [("data", shop_id) for shop_id in shop_ids]
     params += [
-        ("data_output[]", "count_in"),
-        ("data_output[]", "conversion_rate"),
-        ("data_output[]", "turnover"),
+        ("data_output", "count_in"),
+        ("data_output", "conversion_rate"),
+        ("data_output", "turnover"),
         ("source", "shops"),
-        ("period", "date"),
-        ("start_date", start_date),
-        ("end_date", end_date),
-        ("step", "day")
+        ("period", period),
+        ("step", step)
     ]
 
     # Debug info
-    st.write("✅ Params correct opgebouwd als tuples")
+    st.write("✅ Query parameters voor Vemcount-agent opgebouwd")
     st.write("📤 Params:", params)
 
     try:
-        response = requests.post(API_URL, params=params, headers={"Content-Type": "application/json"})
+        response = requests.post(API_URL, params=params)
         st.write("🔁 Statuscode:", response.status_code)
         st.write("📨 Response:", response.text)
 
@@ -84,7 +81,7 @@ conversion_boost_pct = st.slider("Conversieverhoging (%)", min_value=0.1, max_va
 # Ophalen data en simulatie uitvoeren
 if st.button("📊 Simuleer omzetgroei"):
     with st.spinner("Data ophalen van Vemcount API..."):
-        df_kpi = get_kpi_data_for_stores(shop_ids, "2024-01-01", "2024-12-31")
+        df_kpi = get_kpi_data_for_stores(shop_ids, period="last_year", step="day")
 
     if not df_kpi.empty:
         df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
