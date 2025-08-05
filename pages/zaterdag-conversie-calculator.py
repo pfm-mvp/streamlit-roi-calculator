@@ -16,7 +16,7 @@ DEFAULT_SHOP_IDS = [26304, 26560, 26509, 26480, 26640, 26359, 26630, 27038, 2664
 # -----------------------------
 def get_kpi_data_for_stores(shop_ids, start_date, end_date):
     payload = {
-        "data": shop_ids,
+        "data": list(shop_ids),  # Zorg dat dit een echte lijst is
         "data_output": ["count_in", "conversion_rate", "turnover"],
         "source": "shops",
         "period": "date",
@@ -25,7 +25,8 @@ def get_kpi_data_for_stores(shop_ids, start_date, end_date):
         "step": "day"
     }
 
-    # 🔍 Debug-output in Streamlit
+    # Debug info om type en structuur te controleren
+    st.write("✅ type check:", type(shop_ids), type(payload["data"]))
     st.write("📤 Payload naar Vemcount API:")
     st.json(payload)
 
@@ -89,13 +90,12 @@ if st.button("📊 Simuleer omzetgroei"):
         st.success("Simulatie voltooid ✅")
 
         st.dataframe(df_results.style.format({
-            "original_turnover": "\u20ac{:,.0f}",
-            "extra_turnover": "\u20ac{:,.0f}",
-            "new_total_turnover": "\u20ac{:,.0f}",
+            "original_turnover": "€{:,.0f}",
+            "extra_turnover": "€{:,.0f}",
+            "new_total_turnover": "€{:,.0f}",
             "growth_pct": "{:.2f}%"
         }))
 
         st.bar_chart(df_results.set_index("shop_id")["extra_turnover"])
     else:
         st.warning("Geen data beschikbaar voor opgegeven periode/winkels.")
-
