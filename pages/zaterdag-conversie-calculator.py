@@ -37,7 +37,7 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
 
     try:
         response = requests.post(API_URL, params=params)
-        # st.write("🔁 Statuscode:", response.status_code)
+        st.write("🔁 Statuscode:", response.status_code)
 
         if response.status_code == 200:
             try:
