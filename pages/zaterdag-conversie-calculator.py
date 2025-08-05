@@ -24,11 +24,23 @@ def get_kpi_data_for_stores(shop_ids, start_date, end_date):
         "end_date": str(end_date),
         "step": "day"
     }
-    response = requests.post(API_URL, json=payload)
-    if response.status_code == 200:
-        return pd.DataFrame(response.json())
-    else:
-        st.error(f"Fout bij ophalen data: {response.status_code} - {response.text}")
+
+    # 🔍 Debug-output in Streamlit
+    st.write("📤 Payload naar Vemcount API:")
+    st.json(payload)
+
+    try:
+        response = requests.post(API_URL, json=payload)
+        st.write("🔁 Statuscode:", response.status_code)
+        st.write("📨 Response:", response.text)
+
+        if response.status_code == 200:
+            return pd.DataFrame(response.json())
+        else:
+            st.error(f"❌ Fout bij ophalen data: {response.status_code} - {response.text}")
+            return pd.DataFrame()
+    except Exception as e:
+        st.error(f"🚨 Exception tijdens API-call: {e}")
         return pd.DataFrame()
 
 # -----------------------------
