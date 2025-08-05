@@ -39,17 +39,18 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
             try:
                 full_response = response.json()
 
-                # Debugging
-                st.write("📦 Ontvangen ruwe response:", full_response)
+                # ✅ Pak correcte laag
+                if "data" in full_response and "last_year" in full_response["data"]:
+                    raw_data = full_response["data"]["last_year"]
 
-                if isinstance(full_response, list) and full_response and "data" in full_response[0]:
-                    raw_data = full_response[0]["data"]["last_year"]
+                    # (optioneel) debug: toon 1 dag
                     sample_shop = list(raw_data.values())[0]
                     sample_day = list(sample_shop.get("dates", {}).values())[0]
                     st.write("🧪 Sample dagdata:", sample_day)
+
                     return normalize_vemcount_response(raw_data)
                 else:
-                    st.warning("⚠️ Response heeft niet het verwachte formaat.")
+                    st.warning("⚠️ Response heeft niet het verwachte 'last_year' formaat.")
                     return pd.DataFrame()
             except Exception as json_error:
                 st.error(f"❌ JSON parsing mislukt: {json_error}")
