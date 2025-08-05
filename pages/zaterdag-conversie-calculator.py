@@ -43,7 +43,7 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
                 st.write("📦 Ontvangen ruwe response:", full_response)
 
                 if isinstance(full_response, list) and full_response and "data" in full_response[0]:
-                    raw_data = full_response["data"]["last_year"]
+                    raw_data = full_response["data"]
                     return normalize_vemcount_response(raw_data)
                 else:
                     st.warning("⚠️ Response heeft niet het verwachte formaat.")
