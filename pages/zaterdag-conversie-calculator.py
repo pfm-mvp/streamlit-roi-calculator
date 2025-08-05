@@ -33,15 +33,30 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
 
     try:
         response = requests.post(API_URL, params=params)
+        st.write("🔁 Statuscode:", response.status_code)
 
         if response.status_code == 200:
-            raw_data = response.json()[0]["data"]["last_year"]  # ✅ juiste laag
-            return normalize_vemcount_response(raw_data)
+            try:
+                full_response = response.json()
+
+                # Debugging
+                st.write("📦 Ontvangen ruwe response:", full_response)
+
+                if isinstance(full_response, list) and full_response and "data" in full_response[0]:
+                    raw_data = full_response[0]["data"].get("last_year", {})
+                    return normalize_vemcount_response(raw_data)
+                else:
+                    st.warning("⚠️ Response heeft niet het verwachte formaat.")
+                    return pd.DataFrame()
+            except Exception as json_error:
+                st.error(f"❌ JSON parsing mislukt: {json_error}")
+                return pd.DataFrame()
         else:
             st.error(f"❌ Fout bij ophalen data: {response.status_code} - {response.text}")
             return pd.DataFrame()
+
     except Exception as e:
-        st.error(f"🚨 API-call mislukt: {e}")
+        st.error(f"🚨 API-call exception: {e}")
         return pd.DataFrame()
 
 # -----------------------------
