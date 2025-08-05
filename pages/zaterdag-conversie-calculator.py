@@ -8,31 +8,34 @@ from datetime import date
 # -----------------------------
 # CONFIGURATIE
 # -----------------------------
-API_URL = st.secrets["API_URL"]
+API_URL = st.secrets["API_URL"].rstrip("/")  # strip eventuele trailing slash
 DEFAULT_SHOP_IDS = [26304, 26560, 26509, 26480, 26640, 26359, 26630, 27038, 26647, 26646]
 
 # -----------------------------
 # API CLIENT
 # -----------------------------
 def get_kpi_data_for_stores(shop_ids, start_date, end_date):
-    payload = {
-        "data": list(shop_ids),  # Zorg dat dit een echte lijst is
-        "data_output": ["count_in", "conversion_rate", "turnover"],
-        "source": "shops",
-        "period": "date",
-        "start_date": str(start_date),
-        "end_date": str(end_date),
-        "step": "day"
-    }
+    # Zet juiste query parameters op basis van Vemcount API-specs
+    params = [
+        ("data[]", shop_id) for shop_id in shop_ids
+    ]
+    params += [
+        ("data_output[]", "count_in"),
+        ("data_output[]", "conversion_rate"),
+        ("data_output[]", "turnover"),
+        ("source", "shops"),
+        ("period", "date"),
+        ("start_date", start_date),
+        ("end_date", end_date),
+        ("step", "day")
+    ]
 
-    # Debug info om type en structuur te controleren
-    st.write("✅ type check:", type(shop_ids), type(payload["data"]))
-    st.write("📤 Payload naar Vemcount API:")
-    st.json(payload)
+    # Debug info
+    st.write("✅ check: payload opgebouwd als query parameters")
+    st.write("📤 Params:", params)
 
     try:
-        headers = {"Content-Type": "application/json"}
-        response = requests.post(API_URL, json=payload, headers=headers)
+        response = requests.post(API_URL, params=params, headers={"Content-Type": "application/json"})
         st.write("🔁 Statuscode:", response.status_code)
         st.write("📨 Response:", response.text)
 
