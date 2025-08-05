@@ -10,7 +10,7 @@ def normalize_vemcount_response(response_json: dict) -> pd.DataFrame:
             data = day_info.get("data", {})
 
             # 🧪 Debug: check welke keys beschikbaar zijn per dag
-            st.write(f"🔍 {shop_id} - {date_label} - keys in dagdata:", list(data.keys()))
+            # st.write(f"🔍 {shop_id} - {date_label} - keys in dagdata:", list(data.keys()))
 
             row = {
                 "shop_id": int(shop_id),
