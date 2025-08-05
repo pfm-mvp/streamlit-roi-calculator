@@ -16,7 +16,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../'))
 # -----------------------------
 # CONFIGURATIE
 # -----------------------------
-API_URL = st.secrets["API_URL"].rstrip("/")  # verwijder eventuele trailing slash
+API_URL = st.secrets["API_URL"].rstrip("/")
 DEFAULT_SHOP_IDS = [26304, 26560, 26509, 26480, 26640, 26359, 26630, 27038, 26647, 26646]
 
 # -----------------------------
@@ -41,7 +41,9 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
 
     try:
         response = requests.post(API_URL, params=params)
-        st.write("🔁 Statuscode:", response.status_code)
+
+        if debug:
+            st.write("🔁 Statuscode:", response.status_code)
 
         if response.status_code == 200:
             try:
@@ -52,9 +54,11 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
 
                     # ✅ Alleen tonen bij debug
                     if debug:
-                        sample_shop = list(raw_data.values())[0]
-                        sample_day = list(sample_shop.get("dates", {}).values())[0]
-                        st.write("🧪 Sample dagdata:", sample_day)
+                        for shop_id, shop_data in raw_data.items():
+                            dates = shop_data.get("dates", {})
+                            for date_str, date_info in list(dates.items())[:3]:  # max 3 dagen tonen
+                                st.write(f"🔍 {shop_id} - {date_str} - keys in dagdata:")
+                                st.json(list(date_info.get("data", {}).keys()))
 
                     return normalize_vemcount_response(raw_data)
                 else:
