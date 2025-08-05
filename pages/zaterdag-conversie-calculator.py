@@ -16,9 +16,7 @@ DEFAULT_SHOP_IDS = [26304, 26560, 26509, 26480, 26640, 26359, 26630, 27038, 2664
 # -----------------------------
 def get_kpi_data_for_stores(shop_ids, start_date, end_date):
     # Zet juiste query parameters op basis van Vemcount API-specs
-    params = [
-        ("data[]", shop_id) for shop_id in shop_ids
-    ]
+    params = [("data[]", shop_id) for shop_id in shop_ids]
     params += [
         ("data_output[]", "count_in"),
         ("data_output[]", "conversion_rate"),
@@ -31,7 +29,7 @@ def get_kpi_data_for_stores(shop_ids, start_date, end_date):
     ]
 
     # Debug info
-    st.write("✅ check: payload opgebouwd als query parameters")
+    st.write("✅ Params correct opgebouwd als tuples")
     st.write("📤 Params:", params)
 
     try:
