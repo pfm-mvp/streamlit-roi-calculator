@@ -117,6 +117,8 @@ if st.button("📊 Run simulation"):
         st.dataframe(style_table(df_results))
 
         # ✅ Plotly grafiek
+        df_results["shop_id"] = df_results["shop_id"].astype(str)
+        
         fig = px.bar(
             df_results,
             x="shop_id",
