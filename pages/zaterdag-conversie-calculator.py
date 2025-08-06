@@ -121,20 +121,23 @@ st.markdown(
         padding-bottom: 0.5rem;
     }
 
-    /* ✅ Style voor Streamlit 'Run simulation' knop */
-    button[data-testid="baseButton-primary"] {
-        background-color: #F04438 !important;   /* Merkkleur rood */
-        color: white !important;                /* Witte tekst */
-        border-radius: 16px !important;         /* Ronde hoeken */
+    /* ✅ Style de "Run simulation" knop correct */
+    button[data-testid="stBaseButton-secondary"] {
+        background-color: #F04438 !important;  /* Red 500 */
+        color: white !important;
+        border-radius: 16px !important;
         font-weight: 600 !important;
-        font-family: 'Instrument Sans', sans-serif !important;
-        padding: 0.5rem 1.25rem !important;
+        font-family: "Instrument Sans", sans-serif !important;
+        padding: 0.6rem 1.4rem !important;
         border: none !important;
+        box-shadow: none !important;
+        transition: background-color 0.2s ease-in-out;
     }
 
-    /* Hover effect */
-    button[data-testid="baseButton-primary"]:hover {
+    /* ✅ Hover effect */
+    button[data-testid="stBaseButton-secondary"]:hover {
         background-color: #d13c30 !important;
+        cursor: pointer;
     }
 
     /* ✅ Font import (optioneel als je Instrument Sans wil forceren) */
