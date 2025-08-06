@@ -157,7 +157,7 @@ if st.button("Run simulation"):
                         font-weight: 600;
                         text-align: center;
                         margin-bottom: 1.5rem;'>
-                🚀 The potential revenue growth is <span style='font-size:1.5rem;'>€{total_extra_turnover:,.0f}</span>.replace(",", ".")
+                🚀 The potential revenue growth is <span style='font-size:1.5rem;'>€{total_extra_turnover:,.0f}.replace(",", ".")</span>
             </div>
          """, unsafe_allow_html=True)
 
