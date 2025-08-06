@@ -84,47 +84,41 @@ st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wi
 st.markdown(
     """
     <style>
-
-    /* ✅ Vulkleur links van de thumb */
-    [data-baseweb="slider"] > div > div:first-child {
-        background-color: #D8456C !important;
-    }
-
-    /* Rechterkant slider track */
-    [data-baseweb="slider"] svg path:last-of-type {
-        stroke: #FEAC76 !important;
-    }
-    
-    /* ✅ Vulkleur slider (links van thumb) */
-    [data-baseweb="slider"] svg path {
+    /* ✅ Linkerkant van de slider */
+    [data-baseweb="slider"] svg > g > path:nth-of-type(1) {
         stroke: #D8456C !important;
     }
 
-    /* ✅ Thumb (bolletje) */
+    /* ✅ Rechterkant van de slider */
+    [data-baseweb="slider"] svg > g > path:nth-of-type(2) {
+        stroke: #FEAC76 !important;
+    }
+
+    /* ✅ Slider thumb (bolletje) */
     [data-baseweb="slider"] div[role="slider"] {
-    background-color: #D8456C !important;
+        background-color: #D8456C !important;
         border: 2px solid #D8456C !important;
     }
 
     /* ✅ Multiselect pills */
     [data-baseweb="tag"] {
-    background-color: #762181 !important;
+        background-color: #762181 !important;
         color: white !important;
     }
 
-    /* ✅ Success alert (fallback voor custom box) */
+    /* ✅ Succesmelding */
     .stAlert-success {
     background-color: #FEAC76 !important;
         color: black !important;
         border: none !important;
     }
 
-    /* ✅ Padding slider */
+    /* ✅ Slider spacing */
     [data-testid="stSlider"] {
         padding-top: 1rem;
         padding-bottom: 0.5rem;
     }
-</style>
+    </style>
     """,
     unsafe_allow_html=True
 )
