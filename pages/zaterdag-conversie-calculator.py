@@ -84,6 +84,10 @@ st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wi
 st.markdown(
     """
     <style>
+    [data-baseweb="slider"] > div > div:first-child {
+        background-color: #D8456C !important;
+    }
+    
     /* ✅ Vulkleur slider (links van thumb) */
     [data-baseweb="slider"] svg path {
         stroke: #D8456C !important;
