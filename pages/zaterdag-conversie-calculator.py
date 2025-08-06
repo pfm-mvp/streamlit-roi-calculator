@@ -100,15 +100,11 @@ shop_ids = st.multiselect("Selecteer winkels (shop IDs)", options=DEFAULT_SHOP_I
 conversion_boost_pct = st.slider("Conversieverhoging (%)", min_value=0.1, max_value=5.0, value=1.0, step=0.1)
 
 # Ophalen data en simulatie uitvoeren
-if st.button("📊 Simuleer omzetgroei"):
-    with st.spinner("Data ophalen van Vemcount API..."):
-        df_kpi = get_kpi_data_for_stores(shop_ids, period="last_year", step="day")
+if not df_kpi.empty:
+    df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
 
-    if not df_kpi.empty:
-        df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
-
-        st.success("✅ Simulation complete")
-        st.subheader("📊 Expected revenue growth from Saturday conversion boost")
+    st.success("✅ Simulation complete")
+    st.subheader("📊 Expected revenue growth from Saturday conversion boost")
 
     # Apply custom styling to the data table
     def style_table(df):
@@ -126,22 +122,25 @@ if st.button("📊 Simuleer omzetgroei"):
             "new_total_turnover": "€{:,.0f}",
             "growth_pct": "{:.2f}%"
         })
+
     st.dataframe(style_table(df_results))
 
-    # Generate bar chart with custom style
-    fig, ax = plt.subplots(figsize=(8, 5), facecolor="#F0F1F1")
-    ax.bar(df_results["shop_id"].astype(str), df_results["extra_turnover"], color="#762181")
-    ax.set_facecolor("#F0F1F1")
-    ax.tick_params(colors="#F0F1F1")
-    ax.spines['bottom'].set_color("#F0F1F1")
-    ax.spines['left'].set_color("#F0F1F1")
-    ax.set_ylabel("Extra Turnover (€)", color="#F0F1F1")
-    ax.set_xlabel("Store", color="#111111")
-    plt.xticks(color="#F0F1F1")
-    plt.yticks(color="#F0F1F1")
-    plt.title("Saturday Conversion Boost Impact", color="#F0F1F1")
-    plt.tight_layout()
-
-    st.pyplot(fig)
+    # Plotly interactive bar chart
+    fig = px.bar(
+        df_results,
+        x="shop_id",
+        y="extra_turnover",
+        color_discrete_sequence=["#762181"],
+        labels={"shop_id": "Store", "extra_turnover": "Extra Turnover (€)"},
+        title="Saturday Conversion Boost Impact"
+    )
+    fig.update_layout(
+        plot_bgcolor="#F0F1F1",
+        paper_bgcolor="#F0F1F1",
+        font_color="#feac76",
+        xaxis_title="Store",
+        yaxis_title="Extra Turnover (€)"
+    )
+    st.plotly_chart(fig, use_container_width=True)
 else:
     st.warning("⚠️ No data available for the selected period/stores.")
