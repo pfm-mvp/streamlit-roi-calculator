@@ -175,7 +175,7 @@ if st.button("📊 Run simulation"):
         )
 
         fig.update_layout(
-            plot_bgcolor="FAFAFA",
+            plot_bgcolor="#FAFAFA",
             paper_bgcolor="#FAFAFA",
             font_color="#feac76",
             xaxis=dict(
