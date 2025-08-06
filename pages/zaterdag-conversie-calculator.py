@@ -100,7 +100,7 @@ shop_ids = st.multiselect("Selecteer winkels (shop IDs)", options=DEFAULT_SHOP_I
 conversion_boost_pct = st.slider("Conversieverhoging (%)", min_value=0.1, max_value=5.0, value=1.0, step=0.1)
 
 # Ophalen data en simulatie uitvoeren
-if not df_kpi.empty:
+if df_kpi is not None and not df_kpi.empty:
     df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
 
     st.success("✅ Simulation complete")
