@@ -120,6 +120,20 @@ st.markdown(
         padding-top: 1rem;
         padding-bottom: 0.5rem;
     }
+
+    /* ✅ Custom stijl voor de 'Run simulation' button met #F04438 */
+    button[kind="primary"] {
+        background-color: #F04438 !important;   /* Juiste merkrood */
+        color: white !important;                /* Witte tekst */
+        border-radius: 16px !important;         /* Ronde hoeken */
+        font-weight: 600 !important;            /* SemiBold */
+        font-family: 'Instrument Sans', sans-serif !important; /* Valt terug op sans-serif */
+        padding: 0.5rem 1.25rem !important;
+        border: none !important;
+    }
+
+    /* ✅ Font import (optioneel als je Instrument Sans wil forceren) */
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@600&display=swap');
     </style>
     """,
     unsafe_allow_html=True
