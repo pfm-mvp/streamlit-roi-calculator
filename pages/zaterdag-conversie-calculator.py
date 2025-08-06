@@ -116,15 +116,15 @@ if st.button("📊 Run simulation"):
 
         st.dataframe(style_table(df_results))
 
-        # ✅ Plotly grafiek (verticale bars)
-        df_results["shop_id_str"] = df_results["shop_id"].astype(str)
+        # ✅ Plotly grafiek (verticale, leesbare bars)
+        df_results["store_name"] = "Store " + df_results["shop_id"].astype(str)
 
         fig = px.bar(
             df_results,
-            x="shop_id_str",
+            x="store_name",
             y="extra_turnover",
             color_discrete_sequence=["#762181"],
-            labels={"shop_id_str": "Store", "extra_turnover": "Extra Turnover (€)"},
+            labels={"store_name": "Store", "extra_turnover": "Extra Turnover (€)"},
             title="Saturday Conversion Boost Impact"
         )
 
@@ -132,21 +132,24 @@ if st.button("📊 Run simulation"):
             plot_bgcolor="#F0F1F1",
             paper_bgcolor="#F0F1F1",
             font_color="#feac76",
-            xaxis=dict(
-                title="Store",
-                title_font=dict(color="#feac76"),
-                tickfont=dict(color="#feac76"),
-                linecolor="#85888E",
-                gridcolor="#85888E"
-            ),
-            yaxis=dict(
-                title="Extra Turnover (€)",
-                title_font=dict(color="#feac76"),
-                tickfont=dict(color="#feac76"),
-                linecolor="#85888E",
-                gridcolor="#85888E"
-            )
+        xaxis=dict(
+            title="Store",
+            title_font=dict(color="#feac76"),
+            tickfont=dict(color="#feac76"),
+            linecolor="#85888E",
+            gridcolor="#85888E",
+            type='category'  # 👈 Dwing categorische X-as af
+        ),
+        yaxis=dict(
+            title="Extra Turnover (€)",
+            title_font=dict(color="#feac76"),
+            tickfont=dict(color="#feac76"),
+            linecolor="#85888E",
+            gridcolor="#85888E"
         )
-        st.plotly_chart(fig, use_container_width=True)
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
     else:
         st.warning("⚠️ No data available for the selected period/stores.")
