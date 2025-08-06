@@ -84,29 +84,29 @@ st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wi
 st.markdown(
     """
     <style>
-    /* Slider track and thumb */
-    .stSlider > div[data-baseweb="slider"] > div {
-        color: #762181 !important;
+    /* Slider track and thumb - bredere scope */
+    [data-baseweb="slider"] .css-1r6slb0 {
+        background: #762181 !important;
     }
-    input[type="range"]::-webkit-slider-thumb {
-        background-color: #762181 !important;
-    }
-    input[type="range"]::-moz-range-thumb {
-        background-color: #762181 !important;
+    [data-baseweb="slider"] .css-1a4cg4p {
+        background: #762181 !important;
+        border-color: #762181 !important;
     }
 
     /* Multiselect tag pills */
-    .stMultiSelect div[data-baseweb="tag"] {
+    [data-baseweb="tag"] {
         background-color: #762181 !important;
         color: white !important;
     }
 
-    /* Simulation success alert */
-    .stAlert-success {
-        background-color: #FEAC76 !important;
-        color: black !important;
-        border: none !important;
-        box-shadow: none !important;
+    /* Custom success banner */
+    .custom-success {
+        background-color: #FEAC76;
+        color: #000000;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-top: 1rem;
+        font-weight: bold;
     }
     </style>
     """,
@@ -126,7 +126,7 @@ if st.button("📊 Run simulation"):
     if not df_kpi.empty:
         df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
 
-        st.success("✅ Simulation complete")
+        st.markdown('<div class="custom-success">✅ Simulation complete</div>', unsafe_allow_html=True)
         st.subheader("📊 Expected revenue growth from Saturday conversion boost")
 
         # ✅ Tabel
