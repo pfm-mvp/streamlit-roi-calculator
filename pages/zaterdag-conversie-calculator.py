@@ -7,13 +7,13 @@ import pandas as pd
 import requests
 import plotly.express as px
 from datetime import date
-from shop_mapping import SHOP_NAME_MAP
 
 # 👇 Zet dit vóór de import!
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../'))
 
 # ✅ Nu pas importeren
 from data_transformer import normalize_vemcount_response
+from shop_mapping import SHOP_NAME_MAP
 
 # -----------------------------
 # CONFIGURATIE
