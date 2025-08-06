@@ -84,6 +84,14 @@ st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wi
 st.markdown(
     """
     <style>
+    /* ✅ Font import bovenaan */
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap');
+
+    /* ✅ Forceer overal Instrument Sans */
+    html, body, [class*="css"] {
+        font-family: 'Instrument Sans', sans-serif !important;
+    }
+    
     /* 🎯 Fix LINKER deel (vulkleur vóór het bolletje) */
     [data-baseweb="slider"] svg path:nth-of-type(1) {
         stroke: #D8456C !important;
@@ -140,8 +148,6 @@ st.markdown(
         cursor: pointer;
     }
 
-    /* ✅ Font import (optioneel als je Instrument Sans wil forceren) */
-    @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@600&display=swap');
     </style>
     """,
     unsafe_allow_html=True
