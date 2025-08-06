@@ -90,9 +90,9 @@ st.markdown(
         background-color: #D8456C !important;
     }
 
-    /* ✅ Vulkleur rechts van de thumb */
-    [data-baseweb="slider"] > div > div:nth-child(2) {
-        background-color: #FEAC76 !important;
+    /* Rechterkant slider track */
+    [data-baseweb="slider"] svg path:last-of-type {
+        stroke: #FEAC76 !important;
     }
     
     /* ✅ Vulkleur slider (links van thumb) */
