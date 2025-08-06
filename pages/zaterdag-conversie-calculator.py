@@ -84,32 +84,24 @@ st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wi
 st.markdown(
     """
     <style>
-    /* ✅ Slider kleur fix 2025 */
-    [data-baseweb="slider"] > div > div > div[role="slider"] {
+    /* ✅ Slider bolletje */
+    [data-baseweb="slider"] [role="slider"] {
+        background-color: #D8456C !important;
+        border: 2px solid #D8456C !important;
+    }
+
+    /* ✅ Vulbalk tot aan bolletje */
+    [data-testid="stSlider"] div[aria-valuenow] > div:first-child {
         background-color: #D8456C !important;
     }
 
-    [data-baseweb="slider"] svg {
-        stroke: #D8456C !important;
-        fill: #D8456C !important;
-    }
-
-    [data-baseweb="slider"] > div > div > div:first-child {
-        background: #D8456C !important;
-    }
-    
-    /* ✅ Vulbalk slider (gedeelte links van het bolletje) */
-    [data-baseweb="slider"] .css-13cymwt {
-        background-color: #D8456C !important;
-    }
-
-    /* Multiselect tag pills */
+    /* ✅ Multiselect pillen */
     [data-baseweb="tag"] {
         background-color: #762181 !important;
         color: white !important;
     }
 
-    /* Custom success banner */
+    /* ✅ Succesmelding */
     .custom-success {
         background-color: #FEAC76;
         color: #000000;
@@ -122,6 +114,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 st.title("📈 ROI Calculator – Saturday Conversion Boost")
 st.markdown("Simulate the revenue impact of a higher Saturday conversion rate for your retail portfolio.")
 
