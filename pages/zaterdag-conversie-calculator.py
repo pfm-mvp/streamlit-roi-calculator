@@ -91,8 +91,8 @@ def simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
 # STREAMLIT UI
 # -----------------------------
 st.set_page_config(page_title="ROI Calculator - Conversie op Zaterdagen", layout="wide")
-st.title("📈 ROI Calculator - Conversieboost op Zaterdagen")
-st.markdown("Simuleer de omzetimpact van een hogere conversie op zaterdagen in 2024 voor je retailportfolio.")
+st.title("📈 ROI Calculator - Conversieboost on Saturdays")
+st.markdown("Simulate the revenue impact of a higher Saturday conversion rate for your retail portfolio.")
 
 # Sidebar inputs
 shop_ids = st.multiselect("Selecteer winkels (shop IDs)", options=DEFAULT_SHOP_IDS, default=DEFAULT_SHOP_IDS)
@@ -106,16 +106,41 @@ if st.button("📊 Simuleer omzetgroei"):
     if not df_kpi.empty:
         df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
 
-        st.success("✅ Simulatie voltooid")
-        st.subheader("📊 Verwachte omzetgroei bij conversieboost op zaterdagen")
+        st.success("✅ Simulation complete")
+        st.subheader("📊 Expected revenue growth from Saturday conversion boost")
 
-        st.dataframe(df_results.style.format({
+    # Apply custom styling to the data table
+    def style_table(df):
+        return df.style.set_properties(
+            **{
+                "background-color": "#FAFAFA",
+                "color": "#0C111D",
+                "border-color": "#85888E",
+            }
+        ).apply(
+            lambda x: ["background-color: #F0F1F1" if i % 2 else "" for i in range(len(x))], axis=0
+        ).format({
             "original_turnover": "€{:,.0f}",
             "extra_turnover": "€{:,.0f}",
             "new_total_turnover": "€{:,.0f}",
             "growth_pct": "{:.2f}%"
-        }))
+        })
+            st.dataframe(style_table(df_results))
 
-        st.bar_chart(df_results.set_index("shop_id")["extra_turnover"])
-    else:
-        st.warning("⚠️ Geen data beschikbaar voor opgegeven periode/winkels.")
+    # Generate bar chart with custom style
+    fig, ax = plt.subplots(figsize=(8, 5), facecolor="#F0F1F1")
+    ax.bar(df_results["shop_id"].astype(str), df_results["extra_turnover"], color="#762181")
+    ax.set_facecolor("#F0F1F1")
+    ax.tick_params(colors="#F0F1F1")
+    ax.spines['bottom'].set_color("#F0F1F1")
+    ax.spines['left'].set_color("#F0F1F1")
+    ax.set_ylabel("Extra Turnover (€)", color="#F0F1F1")
+    ax.set_xlabel("Store", color="#F0F1F1")
+    plt.xticks(color="#F0F1F1")
+    plt.yticks(color="#F0F1F1")
+    plt.title("Saturday Conversion Boost Impact", color="#F0F1F1")
+    plt.tight_layout()
+
+    st.pyplot(fig)
+else:
+    st.warning("⚠️ No data available for the selected period/stores.")
