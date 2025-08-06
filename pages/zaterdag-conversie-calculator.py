@@ -105,6 +105,8 @@ st.markdown(
     .stAlert-success {
         background-color: #FEAC76 !important;
         color: black !important;
+        border: none !important;
+        box-shadow: none !important;
     }
     </style>
     """,
