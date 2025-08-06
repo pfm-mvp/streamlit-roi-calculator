@@ -108,6 +108,15 @@ st.markdown(
         margin-top: 1rem;
         font-weight: bold;
     }
+
+    /* Slider: lijnkleur en knopkleur in #D8456C */
+    div[data-baseweb="slider"] .css-1aumxhk {
+        background: #D8456C !important;  /* slider track */
+    }
+    div[data-baseweb="slider"] .css-14y8op3 {
+        background: #D8456C !important;  /* slider thumb */
+        border: 2px solid #D8456C !important;
+    }
     </style>
     """,
     unsafe_allow_html=True
