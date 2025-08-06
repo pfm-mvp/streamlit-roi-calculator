@@ -5,8 +5,8 @@ import sys
 import os
 import pandas as pd
 import requests
+import plotly.express as px
 from datetime import date
-import matplotlib.pyplot as plt
 
 # 👇 Zet dit vóór de import!
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../'))
@@ -34,43 +34,31 @@ def get_kpi_data_for_stores(shop_ids, period="last_year", step="day"):
         ("period", period),
         ("step", step)
     ]
-
     try:
         response = requests.post(API_URL, params=params)
-
         if response.status_code == 200:
-            try:
-                full_response = response.json()
-
-                if "data" in full_response and "last_year" in full_response["data"]:
-                    raw_data = full_response["data"]["last_year"]
-                    return normalize_vemcount_response(raw_data)
-                else:
-                    return pd.DataFrame()
-            except Exception:
-                return pd.DataFrame()
+            full_response = response.json()
+            if "data" in full_response and "last_year" in full_response["data"]:
+                raw_data = full_response["data"]["last_year"]
+                return normalize_vemcount_response(raw_data)
         else:
-            st.error(f"❌ Fout bij ophalen data: {response.status_code} - {response.text}")
-            return pd.DataFrame()
-
+            st.error(f"❌ Error fetching data: {response.status_code} - {response.text}")
     except Exception as e:
-        st.error(f"🚨 API-call exception: {e}")
-        return pd.DataFrame()
+        st.error(f"🚨 API call exception: {e}")
+    return pd.DataFrame()
 
 # -----------------------------
 # SIMULATIE FUNCTIE
 # -----------------------------
 def simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
     if "date" not in df.columns:
-        raise ValueError("❌ De kolom 'date' ontbreekt in de DataFrame. Check je normalisatie.")
-
+        raise ValueError("❌ The 'date' column is missing from the DataFrame.")
     df["date"] = pd.to_datetime(df["date"])
-    df = df[df["date"].dt.day_name() == "Saturday"]
+    df = df[df["date"].dt.day_name() == "Saturday"].copy()
 
-    df = df.copy()
     if "sales_per_transaction" not in df.columns:
-        st.error("❌ 'sales_per_transaction' ontbreekt in de DataFrame.")
-        st.write("📋 Beschikbare kolommen:", df.columns.tolist())
+        st.error("❌ 'sales_per_transaction' is missing in the data.")
+        st.write("📋 Available columns:", df.columns.tolist())
         st.stop()
 
     df["atv"] = df["sales_per_transaction"].replace(0, pd.NA)
@@ -91,56 +79,59 @@ def simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
 # -----------------------------
 # STREAMLIT UI
 # -----------------------------
-st.set_page_config(page_title="ROI Calculator - Conversie op Zaterdagen", layout="wide")
-st.title("📈 ROI Calculator - Conversieboost on Saturdays")
+st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wide")
+st.title("📈 ROI Calculator – Saturday Conversion Boost")
 st.markdown("Simulate the revenue impact of a higher Saturday conversion rate for your retail portfolio.")
 
-# Sidebar inputs
-shop_ids = st.multiselect("Selecteer winkels (shop IDs)", options=DEFAULT_SHOP_IDS, default=DEFAULT_SHOP_IDS)
-conversion_boost_pct = st.slider("Conversieverhoging (%)", min_value=0.1, max_value=5.0, value=1.0, step=0.1)
+shop_ids = st.multiselect("Select stores (shop IDs)", options=DEFAULT_SHOP_IDS, default=DEFAULT_SHOP_IDS)
+conversion_boost_pct = st.slider("Conversion increase (%)", min_value=0.1, max_value=5.0, value=1.0, step=0.1)
 
-# Ophalen data en simulatie uitvoeren
-if df_kpi is not None and not df_kpi.empty:
-    df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
+# ✅ Simulatieblok
+if st.button("📊 Run simulation"):
+    with st.spinner("Calculating hidden location potential..."):
+        df_kpi = get_kpi_data_for_stores(shop_ids, period="last_year", step="day")
 
-    st.success("✅ Simulation complete")
-    st.subheader("📊 Expected revenue growth from Saturday conversion boost")
+    if not df_kpi.empty:
+        df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
 
-    # Apply custom styling to the data table
-    def style_table(df):
-        return df.style.set_properties(
-            **{
-                "background-color": "#FAFAFA",
-                "color": "#0C111D",
-                "border-color": "#85888E",
-            }
-        ).apply(
-            lambda x: ["background-color: #F0F1F1" if i % 2 else "" for i in range(len(x))], axis=0
-        ).format({
-            "original_turnover": "€{:,.0f}",
-            "extra_turnover": "€{:,.0f}",
-            "new_total_turnover": "€{:,.0f}",
-            "growth_pct": "{:.2f}%"
-        })
+        st.success("✅ Simulation complete")
+        st.subheader("📊 Expected revenue growth from Saturday conversion boost")
 
-    st.dataframe(style_table(df_results))
+        # ✅ Tabel
+        def style_table(df):
+            return df.style.set_properties(
+                **{
+                    "background-color": "#FAFAFA",
+                    "color": "#0C111D",
+                    "border-color": "#85888E",
+                }
+            ).apply(
+                lambda x: ["background-color: #F0F1F1" if i % 2 else "" for i in range(len(x))], axis=0
+            ).format({
+                "original_turnover": "€{:,.0f}",
+                "extra_turnover": "€{:,.0f}",
+                "new_total_turnover": "€{:,.0f}",
+                "growth_pct": "{:.2f}%"
+            })
 
-    # Plotly interactive bar chart
-    fig = px.bar(
-        df_results,
-        x="shop_id",
-        y="extra_turnover",
-        color_discrete_sequence=["#762181"],
-        labels={"shop_id": "Store", "extra_turnover": "Extra Turnover (€)"},
-        title="Saturday Conversion Boost Impact"
-    )
-    fig.update_layout(
-        plot_bgcolor="#F0F1F1",
-        paper_bgcolor="#F0F1F1",
-        font_color="#feac76",
-        xaxis_title="Store",
-        yaxis_title="Extra Turnover (€)"
-    )
-    st.plotly_chart(fig, use_container_width=True)
-else:
-    st.warning("⚠️ No data available for the selected period/stores.")
+        st.dataframe(style_table(df_results))
+
+        # ✅ Plotly grafiek
+        fig = px.bar(
+            df_results,
+            x="shop_id",
+            y="extra_turnover",
+            color_discrete_sequence=["#762181"],
+            labels={"shop_id": "Store", "extra_turnover": "Extra Turnover (€)"},
+            title="Saturday Conversion Boost Impact"
+        )
+        fig.update_layout(
+            plot_bgcolor="#F0F1F1",
+            paper_bgcolor="#F0F1F1",
+            font_color="#feac76",
+            xaxis_title="Store",
+            yaxis_title="Extra Turnover (€)"
+        )
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.warning("⚠️ No data available for the selected period/stores.")
