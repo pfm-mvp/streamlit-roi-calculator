@@ -121,15 +121,20 @@ st.markdown(
         padding-bottom: 0.5rem;
     }
 
-    /* ✅ Custom stijl voor de 'Run simulation' button met #F04438 */
-    button[kind="primary"] {
-        background-color: #F04438 !important;   /* Juiste merkrood */
+    /* ✅ Style voor Streamlit 'Run simulation' knop */
+    button[data-testid="baseButton-primary"] {
+        background-color: #F04438 !important;   /* Merkkleur rood */
         color: white !important;                /* Witte tekst */
         border-radius: 16px !important;         /* Ronde hoeken */
-        font-weight: 600 !important;            /* SemiBold */
-        font-family: 'Instrument Sans', sans-serif !important; /* Valt terug op sans-serif */
+        font-weight: 600 !important;
+        font-family: 'Instrument Sans', sans-serif !important;
         padding: 0.5rem 1.25rem !important;
         border: none !important;
+    }
+
+    /* Hover effect */
+    button[data-testid="baseButton-primary"]:hover {
+        background-color: #d13c30 !important;
     }
 
     /* ✅ Font import (optioneel als je Instrument Sans wil forceren) */
