@@ -177,7 +177,8 @@ if st.button("Run simulation"):
             ).apply(
                 lambda x: ["background-color: #F0F1F1" if i % 2 else "" for i in range(len(x))], axis=0
             ).format({
-                "Original Turnover": "€{:,.0f}",
+                "Original Total Turnover": "€{:,.0f}",
+                "Original Saturday Turnover": "€{:,.0f}",
                 "Extra Turnover": "€{:,.0f}",
                 "New Total Turnover": "€{:,.0f}",
                 "Growth %": "{:.2f}%"
