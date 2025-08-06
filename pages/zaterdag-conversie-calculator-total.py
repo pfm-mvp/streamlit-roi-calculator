@@ -55,26 +55,34 @@ def simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
     if "date" not in df.columns:
         raise ValueError("❌ The 'date' column is missing from the DataFrame.")
     df["date"] = pd.to_datetime(df["date"])
-    df = df[df["date"].dt.day_name() == "Saturday"].copy()
 
-    if "sales_per_transaction" not in df.columns:
+    # Volledige omzet per winkel (alle dagen)
+    total_turnover = df.groupby("shop_id")["turnover"].sum().reset_index()
+    total_turnover.columns = ["shop_id", "original_total_turnover"]
+
+    # Filter alleen zaterdagen
+    saturdays_df = df[df["date"].dt.day_name() == "Saturday"].copy()
+
+    if "sales_per_transaction" not in saturdays_df.columns:
         st.error("❌ 'sales_per_transaction' is missing in the data.")
-        st.write("📋 Available columns:", df.columns.tolist())
+        st.write("📋 Available columns:", saturdays_df.columns.tolist())
         st.stop()
 
-    df["atv"] = df["sales_per_transaction"].replace(0, pd.NA)
-    df["extra_conversion"] = conversion_boost_pct / 100.0
-    df["extra_customers"] = df["count_in"] * df["extra_conversion"]
-    df["extra_turnover"] = df["extra_customers"] * df["atv"]
+    saturdays_df["atv"] = saturdays_df["sales_per_transaction"].replace(0, pd.NA)
+    saturdays_df["extra_conversion"] = conversion_boost_pct / 100.0
+    saturdays_df["extra_customers"] = saturdays_df["count_in"] * saturdays_df["extra_conversion"]
+    saturdays_df["extra_turnover"] = saturdays_df["extra_customers"] * saturdays_df["atv"]
 
-    results = df.groupby("shop_id").agg(
-        original_turnover=("turnover", "sum"),
+    saturday_grouped = saturdays_df.groupby("shop_id").agg(
+        original_saturday_turnover=("turnover", "sum"),
         extra_turnover=("extra_turnover", "sum")
     ).reset_index()
 
+    # Combineer met totale jaaromzet
+    results = pd.merge(total_turnover, saturday_grouped, on="shop_id", how="left")
     results["store_name"] = results["shop_id"].map(SHOP_NAME_MAP)
-    results["new_total_turnover"] = results["original_turnover"] + results["extra_turnover"]
-    results["growth_pct"] = (results["extra_turnover"] / results["original_turnover"]) * 100
+    results["new_total_turnover"] = results["original_total_turnover"] + results["extra_turnover"]
+    results["growth_pct"] = (results["extra_turnover"] / results["original_total_turnover"]) * 100
 
     return results
 
