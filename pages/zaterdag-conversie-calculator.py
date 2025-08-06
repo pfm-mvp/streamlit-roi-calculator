@@ -116,15 +116,15 @@ if st.button("📊 Run simulation"):
 
         st.dataframe(style_table(df_results))
 
-        # ✅ Plotly grafiek
-        df_results["shop_id"] = df_results["shop_id"].astype(str)
-        
+        # ✅ Plotly grafiek (verticale bars)
+        df_results["shop_id_str"] = df_results["shop_id"].astype(str)
+
         fig = px.bar(
             df_results,
-            x="shop_id",
+            x="shop_id_str",
             y="extra_turnover",
             color_discrete_sequence=["#762181"],
-            labels={"shop_id": "Store", "extra_turnover": "Extra Turnover (€)"},
+            labels={"shop_id_str": "Store", "extra_turnover": "Extra Turnover (€)"},
             title="Saturday Conversion Boost Impact"
         )
         fig.update_layout(
