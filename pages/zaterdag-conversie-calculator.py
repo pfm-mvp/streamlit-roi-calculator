@@ -173,19 +173,19 @@ if st.button("Run simulation"):
         fig.update_layout(
             plot_bgcolor="#FAFAFA",
             paper_bgcolor="#FAFAFA",
-            font_color="#feac76",
+            font_color="#0C111D",
             xaxis=dict(
                 title="Store",
-                title_font=dict(color="#feac76"),
-                tickfont=dict(color="#feac76"),
+                title_font=dict(color="#0C111D"),
+                tickfont=dict(color="#0C111D"),
                 linecolor="#85888E",
                 gridcolor="#85888E",
                 type='category'
             ),
             yaxis=dict(
                 title="Extra Turnover (€)",
-                title_font=dict(color="#feac76"),
-                tickfont=dict(color="#feac76"),
+                title_font=dict(color="#0C111D"),
+                tickfont=dict(color="#0C111D"),
                 linecolor="#85888E",
                 gridcolor="#85888E"
             )
