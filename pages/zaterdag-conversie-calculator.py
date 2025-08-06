@@ -84,8 +84,15 @@ st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wi
 st.markdown(
     """
     <style>
+
+    /* ✅ Vulkleur links van de thumb */
     [data-baseweb="slider"] > div > div:first-child {
         background-color: #D8456C !important;
+    }
+
+    /* ✅ Vulkleur rechts van de thumb */
+    [data-baseweb="slider"] > div > div:nth-child(2) {
+        background-color: #FEAC76 !important;
     }
     
     /* ✅ Vulkleur slider (links van thumb) */
