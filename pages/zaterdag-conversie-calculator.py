@@ -225,7 +225,7 @@ if st.button("Run simulation"):
                 title_font=dict(color="#0C111D"),
                 tickfont=dict(color="#0C111D"),
                 linecolor="#85888E",
-                gridcolor="#85888E"
+                gridcolor="#85888E",
                 tickformat=",.0f"  # <== Dit forceert een formaat zoals €1.234.567
             )
         )
