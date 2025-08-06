@@ -200,8 +200,12 @@ if st.button("Run simulation"):
             x="store_name",
             y="extra_turnover",
             color_discrete_sequence=["#762181"],
-            labels={"store_name": "Store", "extra_turnover": "Extra Turnover (€)"},
-            title="Saturday Conversion Boost Impact"
+            labels={"store_name": "Store", "extra_turnover": "Extra Turnover (Saturdays) (€)"},
+            title="Conversion Boost Impact on Saturdays"
+        )
+
+        fig.update_traces(
+            hovertemplate='<b>%{x}</b><br>Extra Turnover (€): €%{y:,.0f}<extra></extra>'
         )
 
         fig.update_layout(
@@ -222,6 +226,7 @@ if st.button("Run simulation"):
                 tickfont=dict(color="#0C111D"),
                 linecolor="#85888E",
                 gridcolor="#85888E"
+                tickformat=",.0f"  # <== Dit forceert een formaat zoals €1.234.567
             )
         )
 
