@@ -84,15 +84,17 @@ st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wi
 st.markdown(
     """
     <style>
-    /* ✅ Slider bolletje */
-    [data-baseweb="slider"] [role="slider"] {
-        background-color: #D8456C !important;
-        border: 2px solid #D8456C !important;
+    //* ✅ Vulbalk links van het bolletje */
+    input[type="range"]::-webkit-slider-runnable-track {
+        background: linear-gradient(to right, #D8456C var(--val), #E6E6E6 var(--val)) !important;
+        height: 6px;
+        border-radius: 4px;
     }
 
-    /* ✅ Vulbalk tot aan bolletje */
-    [data-testid="stSlider"] div[aria-valuenow] > div:first-child {
+    /* ✅ Bolletje */
+    input[type="range"]::-webkit-slider-thumb {
         background-color: #D8456C !important;
+        border: 2px solid #D8456C !important;
     }
 
     /* ✅ Multiselect pillen */
