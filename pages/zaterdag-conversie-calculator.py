@@ -88,9 +88,14 @@ st.markdown(
     [data-baseweb="slider"] > div > div > div[role="slider"] {
         background-color: #D8456C !important;
     }
+
     [data-baseweb="slider"] svg {
         stroke: #D8456C !important;
         fill: #D8456C !important;
+    }
+
+    [data-baseweb="slider"] > div > div > div:first-child {
+        background: #D8456C !important;
     }
 
     /* Multiselect tag pills */
