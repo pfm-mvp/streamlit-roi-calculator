@@ -165,8 +165,8 @@ if st.button("Run simulation"):
         st.subheader("📊 Expected revenue growth from Saturday conversion boost")
 
         def style_table(df):
-            display_df = df[["store_name", "original_turnover", "extra_turnover", "new_total_turnover", "growth_pct"]].copy()
-            display_df.columns = ["Store", "Original Turnover", "Extra Turnover", "New Total Turnover", "Growth %"]
+            display_df = df[["store_name", "original_total_turnover", "original_saturday_turnover", "extra_turnover", "new_total_turnover", "growth_pct"]].copy()
+            display_df.columns = ["Store", "Original Total Turnover", "Original Saturday Turnover", "Extra Turnover", "New Total Turnover", "Growth %"]
 
             return display_df.style.set_properties(
                 **{
@@ -177,8 +177,9 @@ if st.button("Run simulation"):
             ).apply(
                 lambda x: ["background-color: #F0F1F1" if i % 2 else "" for i in range(len(x))], axis=0
             ).format({
-                "Original Turnover": "€{:,.0f}",
-                "Extra Turnover": "€{:,.0f}",
+                "Original Total Turnover": "€{:,.0f}",
+                "Original Saturday Turnover": "€{:,.0f}",
+                "Extra Turnover (Saturdays)": "€{:,.0f}",
                 "New Total Turnover": "€{:,.0f}",
                 "Growth %": "{:.2f}%"
             })
