@@ -109,7 +109,7 @@ st.markdown(
         font-weight: bold;
     }
 
-    /* Slider: lijnkleur en knopkleur in #D8456C */
+    /* Slider track and thumb – D8456C */
     div[data-baseweb="slider"] .css-1aumxhk {
         background: #D8456C !important;  /* slider track */
     }
