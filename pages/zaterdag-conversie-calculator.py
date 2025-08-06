@@ -126,7 +126,17 @@ st.markdown(
 st.title("📈 ROI Calculator – Saturday Conversion Boost")
 st.markdown("Simulate the revenue impact of a higher Saturday conversion rate for your retail portfolio.")
 
-shop_ids = st.multiselect("Select stores (shop IDs)", options=DEFAULT_SHOP_IDS, default=DEFAULT_SHOP_IDS)
+# 🔁 Maak mapping van ID naar naam & naam naar ID
+ID_TO_NAME = SHOP_NAME_MAP
+NAME_TO_ID = {v: k for k, v in SHOP_NAME_MAP.items()}
+
+# 🔁 Genereer naam-opties op basis van DEFAULT_SHOP_IDS
+default_names = [ID_TO_NAME.get(shop_id, str(shop_id)) for shop_id in DEFAULT_SHOP_IDS]
+
+selected_names = st.multiselect("Select stores", options=list(NAME_TO_ID.keys()), default=default_names)
+
+# 🔁 Vertaal store_namen terug naar shop_ids voor de API
+shop_ids = [NAME_TO_ID[name] for name in selected_names]
 conversion_boost_pct = st.slider("Conversion increase (%)", min_value=0.1, max_value=5.0, value=1.0, step=0.1)
 
 # ✅ Simulatieblok
