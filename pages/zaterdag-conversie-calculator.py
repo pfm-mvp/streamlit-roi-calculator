@@ -6,6 +6,7 @@ import os
 import pandas as pd
 import requests
 from datetime import date
+import matplotlib.pyplot as plt  # <== deze regel moet er staan
 
 # 👇 Zet dit vóór de import!
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/../'))
