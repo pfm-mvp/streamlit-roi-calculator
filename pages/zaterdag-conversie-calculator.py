@@ -97,6 +97,11 @@ st.markdown(
     [data-baseweb="slider"] > div > div > div:first-child {
         background: #D8456C !important;
     }
+    
+    /* ✅ Vulbalk slider (gedeelte links van het bolletje) */
+    [data-baseweb="slider"] .css-13cymwt {
+        background-color: #D8456C !important;
+    }
 
     /* Multiselect tag pills */
     [data-baseweb="tag"] {
