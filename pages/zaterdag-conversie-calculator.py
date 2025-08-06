@@ -168,7 +168,7 @@ if st.button("Run simulation"):
     if not df_kpi.empty:
         df_results = simulate_conversion_boost_on_saturdays(df_kpi, conversion_boost_pct)
 
-        st.markdown('<div class="custom-success">✅ Simulation complete</div>', unsafe_allow_html=True)
+        st.markdown('<div class="custom-success">Simulation complete</div>', unsafe_allow_html=True)
         st.subheader("📊 Expected revenue growth from Saturday conversion boost")
 
         # ✅ Tabel
