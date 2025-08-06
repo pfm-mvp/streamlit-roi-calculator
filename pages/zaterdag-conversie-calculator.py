@@ -80,6 +80,36 @@ def simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
 # STREAMLIT UI
 # -----------------------------
 st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wide")
+# ✅ Custom styling for slider, multiselect and success box
+st.markdown(
+    """
+    <style>
+    /* Slider track and thumb */
+    .stSlider > div[data-baseweb="slider"] > div {
+        color: #762181 !important;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+        background-color: #762181 !important;
+    }
+    input[type="range"]::-moz-range-thumb {
+        background-color: #762181 !important;
+    }
+
+    /* Multiselect tag pills */
+    .stMultiSelect div[data-baseweb="tag"] {
+        background-color: #762181 !important;
+        color: white !important;
+    }
+
+    /* Simulation success alert */
+    .stAlert-success {
+        background-color: #FEAC76 !important;
+        color: black !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 st.title("📈 ROI Calculator – Saturday Conversion Boost")
 st.markdown("Simulate the revenue impact of a higher Saturday conversion rate for your retail portfolio.")
 
