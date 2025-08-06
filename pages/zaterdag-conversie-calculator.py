@@ -84,64 +84,44 @@ st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wi
 st.markdown(
     """
     <style>
-    /* === Slider kleur: vulbalk en bolletje === */
-
-    /* Slider bar (vulbalk links van thumb) */
-    input[type="range"]::-webkit-slider-runnable-track {
-        background: linear-gradient(to right, #D8456C 0%, #D8456C 50%, #E6E6E6 50%, #E6E6E6 100%) !important;
-        height: 6px;
-        border-radius: 5px;
+    /* ✅ Fix slider track fill color (via SVG target) */
+    [data-baseweb="slider"] svg [stroke] {
+        stroke: #D8456C !important;
     }
 
-    input[type="range"]::-moz-range-progress {
-        background-color: #D8456C !important;
-        height: 6px;
-        border-radius: 5px;
+    [data-baseweb="slider"] svg [fill] {
+        fill: #D8456C !important;
     }
 
-    input[type="range"]::-moz-range-track {
-        background-color: #E6E6E6 !important;
-        height: 6px;
-        border-radius: 5px;
-    }
-
-    /* Slider bolletje */
-    input[type="range"]::-webkit-slider-thumb {
+    /* ✅ Fix slider thumb kleur */
+    [data-baseweb="slider"] div[role="slider"] {
         background-color: #D8456C !important;
         border: 2px solid #D8456C !important;
-        height: 20px;
-        width: 20px;
-        margin-top: -7px;
-        border-radius: 50%;
     }
 
-    input[type="range"]::-moz-range-thumb {
-        background-color: #D8456C !important;
-        border: 2px solid #D8456C !important;
-        height: 20px;
-        width: 20px;
-        border-radius: 50%;
-    }
-
-    /* Multiselect tag pills */
+    /* ✅ Multiselect pills */
     [data-baseweb="tag"] {
         background-color: #762181 !important;
         color: white !important;
     }
 
-    /* Success box kleur */
-    .custom-success {
-        background-color: #FEAC76;
-        color: #000000;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        margin-top: 1rem;
-        font-weight: bold;
+    /* ✅ Success alert (fallback voor custom box) */
+    .stAlert-success {
+        background-color: #FEAC76 !important;
+        color: black !important;
+        border: none !important;
+    }
+
+    /* ✅ Algemene fix voor consistentie */
+    [data-testid="stSlider"] {
+        padding-top: 1rem;
+        padding-bottom: 0.5rem;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 st.title("📈 ROI Calculator – Saturday Conversion Boost")
 st.markdown("Simulate the revenue impact of a higher Saturday conversion rate for your retail portfolio.")
