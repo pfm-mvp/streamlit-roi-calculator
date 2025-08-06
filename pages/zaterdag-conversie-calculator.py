@@ -149,6 +149,6 @@ if st.button("📊 Run simulation"):
             )
         )
 
-    st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
     else:
         st.warning("⚠️ No data available for the selected period/stores.")
