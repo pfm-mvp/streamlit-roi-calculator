@@ -127,6 +127,7 @@ if st.button("📊 Run simulation"):
             labels={"shop_id_str": "Store", "extra_turnover": "Extra Turnover (€)"},
             title="Saturday Conversion Boost Impact"
         )
+
         fig.update_layout(
             plot_bgcolor="#F0F1F1",
             paper_bgcolor="#F0F1F1",
