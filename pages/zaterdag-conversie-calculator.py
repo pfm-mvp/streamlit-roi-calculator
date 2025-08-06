@@ -84,13 +84,13 @@ st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wi
 st.markdown(
     """
     <style>
-    /* Slider track and thumb - bredere scope */
-    [data-baseweb="slider"] .css-1r6slb0 {
-        background: #762181 !important;
+    /* ✅ Slider kleur fix 2025 */
+    [data-baseweb="slider"] > div > div > div[role="slider"] {
+        background-color: #D8456C !important;
     }
-    [data-baseweb="slider"] .css-1a4cg4p {
-        background: #762181 !important;
-        border-color: #762181 !important;
+    [data-baseweb="slider"] svg {
+        stroke: #D8456C !important;
+        fill: #D8456C !important;
     }
 
     /* Multiselect tag pills */
@@ -107,15 +107,6 @@ st.markdown(
         border-radius: 0.5rem;
         margin-top: 1rem;
         font-weight: bold;
-    }
-
-    /* Slider track and thumb – D8456C */
-    div[data-baseweb="slider"] .css-1aumxhk {
-        background: #D8456C !important;  /* slider track */
-    }
-    div[data-baseweb="slider"] .css-14y8op3 {
-        background: #D8456C !important;  /* slider thumb */
-        border: 2px solid #D8456C !important;
     }
     </style>
     """,
