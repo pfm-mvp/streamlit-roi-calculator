@@ -129,8 +129,20 @@ if st.button("📊 Run simulation"):
             plot_bgcolor="#F0F1F1",
             paper_bgcolor="#F0F1F1",
             font_color="#feac76",
-            xaxis_title="Store",
-            yaxis_title="Extra Turnover (€)"
+            xaxis=dict(
+                title="Store",
+                title_font=dict(color="#feac76"),
+                tickfont=dict(color="#feac76"),
+                linecolor="#85888E",
+                gridcolor="#85888E"
+            ),
+            yaxis=dict(
+                title="Extra Turnover (€)",
+                title_font=dict(color="#feac76"),
+                tickfont=dict(color="#feac76"),
+                linecolor="#85888E",
+                gridcolor="#85888E"
+            )
         )
         st.plotly_chart(fig, use_container_width=True)
     else:
