@@ -84,17 +84,19 @@ st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wi
 st.markdown(
     """
     <style>
-    /* ✅ Linkerkant van de slider */
-    [data-baseweb="slider"] svg > g > path:nth-of-type(1) {
+    /* 🎯 Fix LINKER deel (vulkleur vóór het bolletje) */
+    [data-baseweb="slider"] svg path:nth-of-type(1) {
         stroke: #D8456C !important;
+        fill: #D8456C !important;
     }
 
-    /* ✅ Rechterkant van de slider */
-    [data-baseweb="slider"] svg > g > path:nth-of-type(2) {
+    /* 🎯 Fix RECHTER deel (achter bolletje) */
+    [data-baseweb="slider"] svg path:nth-of-type(2) {
         stroke: #FEAC76 !important;
+        fill: #FEAC76 !important;
     }
 
-    /* ✅ Slider thumb (bolletje) */
+    /* ✅ Slider THUMB (bolletje) */
     [data-baseweb="slider"] div[role="slider"] {
         background-color: #D8456C !important;
         border: 2px solid #D8456C !important;
@@ -108,7 +110,7 @@ st.markdown(
 
     /* ✅ Succesmelding */
     .stAlert-success {
-    background-color: #FEAC76 !important;
+        background-color: #FEAC76 !important;
         color: black !important;
         border: none !important;
     }
