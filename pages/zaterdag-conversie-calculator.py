@@ -155,7 +155,7 @@ shop_ids = st.multiselect("Select stores (shop IDs)", options=DEFAULT_SHOP_IDS, 
 conversion_boost_pct = st.slider("Conversion increase (%)", min_value=0.1, max_value=5.0, value=1.0, step=0.1)
 
 # ✅ Simulatieblok
-if st.button("📊 Run simulation"):
+if st.button("Run simulation"):
     with st.spinner("Calculating hidden location potential..."):
         df_kpi = get_kpi_data_for_stores(shop_ids, period="last_year", step="day")
 
