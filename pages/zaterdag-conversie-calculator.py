@@ -125,7 +125,7 @@ if st.button("📊 Simuleer omzetgroei"):
             "new_total_turnover": "€{:,.0f}",
             "growth_pct": "{:.2f}%"
         })
-            st.dataframe(style_table(df_results))
+    st.dataframe(style_table(df_results))
 
     # Generate bar chart with custom style
     fig, ax = plt.subplots(figsize=(8, 5), facecolor="#F0F1F1")
