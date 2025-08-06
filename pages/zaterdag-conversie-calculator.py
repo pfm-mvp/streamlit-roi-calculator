@@ -83,6 +83,46 @@ def simulate_conversion_boost_on_saturdays(df, conversion_boost_pct):
 # -----------------------------
 st.set_page_config(page_title="ROI Calculator - Saturday Conversion", layout="wide")
 
+# ✅ Styling: paarse pills & rode knop
+st.markdown(
+    """
+    <style>
+    /* Font import (optioneel) */
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap');
+
+    /* Forceer Instrument Sans als standaard font */
+    html, body, [class*="css"] {
+        font-family: 'Instrument Sans', sans-serif !important;
+    }
+
+    /* 🎨 Multiselect pills in paars */
+    [data-baseweb="tag"] {
+        background-color: #9E77ED !important;
+        color: white !important;
+    }
+
+    /* 🔴 "Run simulation" knop in PFM-rood */
+    button[data-testid="stBaseButton-secondary"] {
+        background-color: #F04438 !important;
+        color: white !important;
+        border-radius: 16px !important;
+        font-weight: 600 !important;
+        font-family: "Instrument Sans", sans-serif !important;
+        padding: 0.6rem 1.4rem !important;
+        border: none !important;
+        box-shadow: none !important;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    button[data-testid="stBaseButton-secondary"]:hover {
+        background-color: #d13c30 !important;
+        cursor: pointer;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 st.title("📈 ROI Calculator – Saturday Conversion Boost")
 st.markdown("Simulate the revenue impact of a higher Saturday conversion rate for your retail portfolio.")
 
