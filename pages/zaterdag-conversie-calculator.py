@@ -136,7 +136,7 @@ if st.button("📊 Simuleer omzetgroei"):
     ax.spines['bottom'].set_color("#F0F1F1")
     ax.spines['left'].set_color("#F0F1F1")
     ax.set_ylabel("Extra Turnover (€)", color="#F0F1F1")
-    ax.set_xlabel("Store", color="#F0F1F1")
+    ax.set_xlabel("Store", color="#111111")
     plt.xticks(color="#F0F1F1")
     plt.yticks(color="#F0F1F1")
     plt.title("Saturday Conversion Boost Impact", color="#F0F1F1")
